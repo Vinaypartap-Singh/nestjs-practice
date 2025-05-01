@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { EmployeeModule } from './employee/employee.module';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { APP_GUARD } from '@nestjs/core';
         limit: 100,
       },
     ]),
+    EmployeeModule,
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [
