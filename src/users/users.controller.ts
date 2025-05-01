@@ -7,8 +7,12 @@ import {
   Post,
   Put,
   Query,
+  ValidationPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { v4 as uuid } from 'uuid';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -32,14 +36,8 @@ export class UsersController {
 
   @Post()
   addUser(
-    @Body()
-    user: {
-      id: string;
-      name: string;
-      email: string;
-      password: string;
-      role: 'INTERN' | 'ENGINEER' | 'ADMIN';
-    },
+    @Body(ValidationPipe)
+    user: CreateUserDto,
   ) {
     return this.userService.create(user);
   }
@@ -47,14 +45,8 @@ export class UsersController {
   @Put(':id')
   updateUser(
     @Param('id') id: string,
-    @Body()
-    userUpdate: {
-      id: string;
-      name: string;
-      email: string;
-      password: string;
-      role: 'INTERN' | 'ENGINEER' | 'ADMIN';
-    },
+    @Body(ValidationPipe)
+    userUpdate: UpdateUserDto,
   ) {
     return this.userService.updateUser(id, userUpdate);
   }

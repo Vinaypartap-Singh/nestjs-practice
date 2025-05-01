@@ -1,4 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { v4 as uuid } from 'uuid';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -61,14 +64,9 @@ export class UsersService {
     return user;
   }
 
-  create(user: {
-    id: string;
-    name: string;
-    email: string;
-    password: string;
-    role: 'INTERN' | 'ENGINEER' | 'ADMIN';
-  }) {
+  create(user: CreateUserDto) {
     const newUser = {
+      id: uuid(),
       ...user,
     };
 
@@ -77,10 +75,7 @@ export class UsersService {
     return newUser;
   }
 
-  updateUser(
-    id: string,
-    updatedUser: { name?: string; email: string; password?: string },
-  ) {
+  updateUser(id: string, updatedUser: UpdateUserDto) {
     this.users = this.users.map((user) => {
       if (user.id === id) {
         return { ...user, ...updatedUser };
